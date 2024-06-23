@@ -1,0 +1,209 @@
+<div class="container mt-5 p-4" id="registro">
+    <h1 class="text-center"><strong>Registro</strong></h1>
+    <p class="text-center">Introduce tus datos para crear una nueva cuenta</p>
+    <form class="row" [formGroup]="formularioRegistro" (ngSubmit)="registrar()">
+        <div class="col-12 col-md-6 mb-2">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" formControlName="nombre"
+                [ngClass]="{'is-invalid':submitted && formularioRegistro.controls.nombre.errors}" id="nombre"
+                placeholder="Nombre">
+            @if (formularioRegistro.get('nombre')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+            @if (formularioRegistro.get('nombre')?.errors?.['maxlength']) {
+            <div class="invalid-feedback">No puede tener más de 45 caracteres</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="apellidos" class="form-label">Apellidos</label>
+            <input type="text" class="form-control" formControlName="apellidos"
+                [ngClass]="{'is-invalid':submitted && formularioRegistro.controls.apellidos.errors}" id="apellidos"
+                placeholder="Apellidos">
+            @if (formularioRegistro.get('apellidos')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+            @if (formularioRegistro.get('apellidos')?.errors?.['maxlength']) {
+            <div class="invalid-feedback">No puede tener más de 45 caracteres</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="email" class="form-label">Email <i class="bi bi-info-circle-fill" data-bs-toggle="modal"
+                    data-bs-target="#infoEModal"></i></label>
+            <input type="email" class="form-control" formControlName="email"
+                [ngClass]="{'is-invalid':submitted && formularioRegistro.controls.email.errors}" id="email"
+                placeholder="ejmplo@gmail.com">
+            @if (formularioRegistro.get('email')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+            @if (formularioRegistro.get('email')?.errors?.['maxlength']) {
+            <div class="invalid-feedback">No puede tener más de 100 caracteres</div>
+            }
+            @if (formularioRegistro.get('email')?.errors?.['correoValido']) {
+            <div class="invalid-feedback">El campo debe ser un correo válido.</div>
+            }
+        </div>
+        <!-- Modal email-->
+        <div class="modal fade" id="infoEModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Email</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <small class="text-secondary">
+                            El correo debe comenzar por cualquier caracter, numero o caracter especial (_ . -), seguido
+                            de una "&#64;", con dominio (gmail, hotmail o educa.jcyl) y terminar por (.com o .es).
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="password" class="form-label">Contraseña <i class="bi bi-info-circle-fill" data-bs-toggle="modal"
+                    data-bs-target="#infoPModal"></i></label>
+            <input type="password" class="form-control" formControlName="psw"
+                [ngClass]="{'is-invalid':submitted && formularioRegistro.controls.psw.errors}" id="password"
+                placeholder="Ingrese su contraseña">
+            @if (formularioRegistro.get('psw')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+            @if (formularioRegistro.get('psw')?.errors?.['maxlength']) {
+            <div class="invalid-feedback">No puede tener más de 64 caracteres</div>
+            }
+            @if (formularioRegistro.get('psw')?.errors?.['correoValido']) {
+            <div class="invalid-feedback">La contraseña no es segura</div>
+            }
+        </div>
+        <!-- Modal contraseña-->
+        <div class="modal fade" id="infoPModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Contraseña Segura</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <small class="text-secondary">
+                            La contraseña debe tener mínimo 8 caracteres, mínimo 1 letra minúscula, 1 mayúscula, 1
+                            dígito y culaquier caracter de los siguientes ($!%*#?.^_-).
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="fecha" class="form-label">Fecha Nacimiento</label>
+            <input type="date" class="form-control" formControlName="fechanacimiento"
+                [ngClass]="{'is-invalid':submitted && formularioRegistro.controls.fechanacimiento.errors}" id="fecha">
+            @if (formularioRegistro.get('fechanacimiento')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="telefono" class="form-label">Telefono</label>
+            <input type="number" class="form-control" formControlName="telefono"
+                [ngClass]="{'is-invalid':submitted && formularioRegistro.controls.telefono.errors}" id="telefono"
+                placeholder="Telefono">
+            @if (formularioRegistro.get('telefono')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 col-md-8 mb-2">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input type="text" class="form-control" formControlName="direccion"
+                [ngClass]="{'is-invalid':submitted && formularioRegistro.controls.direccion.errors}" id="direccion"
+                placeholder="Dirección">
+            @if (formularioRegistro.get('direccion')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+            @if (formularioRegistro.get('direccion')?.errors?.['maxlength']) {
+            <div class="invalid-feedback">No puede tener más de 100 caracteres</div>
+            }
+        </div>
+        <div class="col-12 col-md-4 mb-2">
+            <label for="cp" class="form-label">Código Postal</label>
+            <input type="number" class="form-control" formControlName="cp"
+                [ngClass]="{'is-invalid':submitted && formularioRegistro.controls.cp.errors}" id="cp" placeholder="CP">
+            @if (formularioRegistro.get('cp')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="provincia" class="form-label">Provincia</label>
+            <select id="provincia" class="form-select" formControlName="provincia"
+                [ngClass]="{'is-invalid':submitted && formularioRegistro.controls.provincia.errors}"
+                placeholder="Escoge tu Provincia">
+                <option value="" selected>Escoge una provincia</option>
+                @for (p of provincias; track $index) {
+                <option value="{{p.idprovincia}}">{{p.nombre}}</option>
+                }
+            </select>
+            @if (formularioRegistro.get('provincia')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="provinciafav" class="form-label">Ciudad Favorita <i class="bi bi-info-circle-fill"
+                    data-bs-toggle="modal" data-bs-target="#infoCModal"></i></label>
+            <select id="provinciafav" class="form-select" formControlName="provinciafav"
+                [ngClass]="{'is-invalid':submitted && formularioRegistro.controls.provinciafav.errors}"
+                placeholder="Escoge tu Ciudad Favorita">
+                <option value="" selected>Escoge una ciudad</option>
+                @for (p of provincias; track $index) {
+                <option value="{{p.idprovincia}}">{{p.nombre}}</option>
+                }
+            </select>
+            @if (formularioRegistro.get('provinciafav')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <!-- Modal contraseña-->
+        <div class="modal fade" id="infoCModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Ciudad Favorita</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <small class="text-secondary">
+                            Es la ciudad de preferencia para buscar eventos.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mt-2 d-grid gap-2">
+            <button type="submit" class="btn btn-primario">Registrarme</button>
+        </div>
+        <div class="col-12 mb-4 mt-2 d-grid gap-2">
+            <button type="reset" class="btn btn-secundario">Limpiar</button>
+        </div>
+    </form>
+    <p class="text-center text-secundario">¿Ya tienes cuenta? <a routerLink="../login">Inicia Sesión</a></p>
+</div>
+@if(alertDatosErroneos){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        Datos introducidos erroneos, reviselos.
+    </div>
+</div>
+}
+@if(alertRegistroConfirm){
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill"></i>
+    <div>
+        Usuario creado correctamente!
+    </div>
+</div>
+}
+@if(alertRegistroErroneo){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        Ha ocurrido un error al crear el usuario, pruebe de nuevo.
+    </div>
+</div>
+}

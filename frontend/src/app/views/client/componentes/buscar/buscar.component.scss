@@ -1,0 +1,29 @@
+.imagen-cat {
+    width: 100%;
+    height: 20vw;
+    object-fit: cover;
+}
+
+@media (width >=460px) {
+    .imagen-cat {
+        height: 15vw;
+    }
+}
+
+.imagen-ev {
+    width: 100%;
+    height: 40vw;
+    object-fit: cover;
+}
+
+@media (width >=460px) {
+    .imagen-ev {
+        height: 25vw;
+    }
+}
+
+@media (width >=768px) {
+    .imagen-ev {
+        height: 15vw;
+    }
+}

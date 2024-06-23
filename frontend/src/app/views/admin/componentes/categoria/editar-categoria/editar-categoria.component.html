@@ -1,0 +1,77 @@
+<div class="container">
+    <h2 class="text-center mb-3">Editar</h2>
+    <form class="row g-3 align-items-center mb-4" [formGroup]="formularioCategoria">
+        <div class="col-12 col-md-6">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" formControlName="nombre"
+                [ngClass]="{'is-invalid':submitted && formularioCategoria.controls.nombre.errors}" id="nombre"
+                placeholder="Nombre">
+            @if (formularioCategoria.get('nombre')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+            @if (formularioCategoria.get('nombre')?.errors?.['maxlength']) {
+            <div class="invalid-feedback">No puede tener más de 32 caracteres</div>
+            }
+        </div>
+        <div class="col-12 col-md-6">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <input type="text" class="form-control" formControlName="descripcion"
+                [ngClass]="{'is-invalid':submitted && formularioCategoria.controls.descripcion.errors}" id="descripcion"
+                placeholder="Introduce una breve descripción de la categoría">
+            @if (formularioCategoria.get('descripcion')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+            @if (formularioCategoria.get('descripcion')?.errors?.['maxlength']) {
+            <div class="invalid-feedback">No puede tener más de 256 caracteres</div>
+            }
+        </div>
+        <div class="col-12 mb-2">
+            <label for="img" class="form-label">Imagen</label>
+            <input type="file" class="form-control" formControlName="img" (change)="onFileSelected($event)"
+                [ngClass]="{'is-invalid':submitted && formularioCategoria.controls.img.errors}" id="precio" id="img">
+        </div>
+        @if(srcPreview != ''){
+        <div class="col-12 mb-3 d-flex justify-content-center">
+            <img id="preview" [src]="srcPreview" alt="preview" class="card-img">
+        </div>
+        }
+        <div class="col-6 mt-2 d-grid gap-2">
+            <button type="reset" class="btn btn-secundario" (click)="limpiar()">Limpiar</button>
+        </div>
+        <div class="col-6 mt-2 d-grid gap-2">
+            <button type="submit" class="btn btn-primario_claro" data-bs-toggle="modal"
+                data-bs-target="#editarModal">Editar</button>
+        </div>
+        <!-- Modal de confirmación -->
+        <div class="modal fade" id="editarModal" tabindex="-1" data-bs-theme="dark">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">¿Seguro que quieres editar la categoría
+                            "{{formularioCategoria.value.nombre}}"?</h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-error" data-bs-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-primario" data-bs-dismiss="modal" (click)="enviar()">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@if(alertConfirmEditar){
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-1"></i>
+    <div>
+        Categoría editada correctamente!
+    </div>
+</div>
+}
+@if(alertErrorEditar){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        Error al editar la categoría.
+    </div>
+</div>
+}

@@ -1,0 +1,106 @@
+<div class="container">
+    <h2 class="text-center mb-3">Editar</h2>
+    <form class="row g-3 align-items-center mb-4" [formGroup]="formularioEntrada">
+        <div class="col-12 col-md-6">
+            <label for="precio" class="form-label">Precio</label>
+            <input type="number" class="form-control" formControlName="precio"
+                [ngClass]="{'is-invalid':submitted && formularioEntrada.controls.precio.errors}" id="precio"
+                placeholder="Precio">
+            @if (formularioEntrada.get('precio')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="estado" class="form-label">Estado</label>
+            <select id="estado" class="form-select" formControlName="estado"
+                [ngClass]="{'is-invalid':submitted && formularioEntrada.controls.estado.errors}"
+                placeholder="Escoge el estado de la Entrada">
+                <option value="" selected>Escoge un estado</option>
+                <option value="comprada">Comprada</option>
+                <option value="en venta">En Venta</option>
+                <option value="reservada">Reservada</option>
+            </select>
+            @if (formularioEntrada.get('estado')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="usuario" class="form-label">Usuario</label>
+            <select id="usuario" class="form-select" formControlName="usuario"
+                [ngClass]="{'is-invalid':submitted && formularioEntrada.controls.usuario.errors}"
+                placeholder="Escoge el usuario al que pertenece la entrada">
+                <option value="" selected>Escoge el usuario al que pertenece la entrada</option>
+                @for (u of usuarios; track $index) {
+                <option value="{{u.idusuario}}">{{u.nombre}} {{u.apellidos}}</option>
+                }
+            </select>
+            @if (formularioEntrada.get('usuario')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="evento" class="form-label">Evento</label>
+            <select id="evento" class="form-select" formControlName="evento"
+                [ngClass]="{'is-invalid':submitted && formularioEntrada.controls.evento.errors}"
+                placeholder="Escoge el evento">
+                <option value="" selected>Escoge el evento de la entrada</option>
+                @for (e of eventos; track $index) {
+                <option value="{{e.idevento}}">{{e.nombre}}</option>
+                }
+            </select>
+            @if (formularioEntrada.get('evento')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 mb-3">
+            <label for="img" class="form-label">Código QR o PDF</label>
+            <input type="file" class="form-control" formControlName="img" (change)="onFileSelected($event)"
+                [ngClass]="{'is-invalid':submitted && formularioEntrada.controls.img.errors}" id="img">
+            @if (formularioEntrada.get('img')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        @if(srcPreview != ''){
+        <div class="col-12 mb-3 d-flex justify-content-center">
+            <img id="preview" [src]="srcPreview" alt="preview" class="card-img" id="qr">
+        </div>
+        }
+        <div class="col-6 mt-2 d-grid gap-2">
+            <button type="reset" class="btn btn-secundario" (click)="limpiar()">Limpiar</button>
+        </div>
+        <div class="col-6 mt-2 d-grid gap-2">
+            <button type="submit" class="btn btn-primario_claro" data-bs-toggle="modal"
+                data-bs-target="#editarModal">Editar</button>
+        </div>
+        <!-- Modal de confirmación -->
+        <div class="modal fade" id="editarModal" tabindex="-1" data-bs-theme="dark">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">¿Seguro que quieres editar la entrada?</h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-error" data-bs-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-primario" data-bs-dismiss="modal" (click)="enviar()">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@if(alertConfirmEditar){
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-1"></i>
+    <div>
+        Categoría editada correctamente!
+    </div>
+</div>
+}
+@if(alertErrorEditar){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        Error al editar la categoría.
+    </div>
+</div>
+}

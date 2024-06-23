@@ -1,0 +1,30 @@
+@media (width <= 768px) {
+    .container {
+        max-width: 70vw;
+    }
+}
+
+@media (width >= 768px) {
+    .container {
+        max-width: 60vw;
+    }
+}
+
+@media (width >= 992px) {
+    .container {
+        max-width: 50vw;
+    }
+}
+
+@media (width >= 1200px) {
+    .container {
+        max-width: 40vw;
+    }
+}
+
+.alert {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+}

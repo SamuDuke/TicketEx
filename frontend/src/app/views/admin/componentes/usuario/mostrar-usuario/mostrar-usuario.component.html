@@ -1,0 +1,58 @@
+<div class="container mb-3">
+    <h2 class="text-center">Listado</h2>
+    <div class="row gx-4 gy-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+        @for (u of usuarios; track $index) {
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{u.nombre}} {{u.apellidos}}</h5>
+                    <p class="card-text">Email: {{u.correo}}</p>
+                    <p class="card-text">Tel: {{u.telefono}}</p>
+                    <p class="card-text">{{u.direccion}}, {{u.provincia.nombre}}</p>
+                    <a class="btn btn-primario_claro me-2" routerLink="../editar/{{u.idusuario}}">Editar</a>
+                    <a class="btn btn-danger" data-bs-toggle="modal"
+                        [attr.data-bs-target]="'#eliminarModal' + u.idusuario">Eliminar</a>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    @for (u of usuarios; track $index) {
+    <!-- Modal de confirmación -->
+    <div class="modal fade" [id]="'eliminarModal' + u.idusuario" tabindex="-1" data-bs-theme="dark">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">¿Seguro que quieres eliminar el usuario
+                        "{{u.correo}}"?</h1>
+                </div>
+                <div class="modal-body">
+                    <small class="text-secondary">Se eliminarán también todas las Entradas asociadas a este
+                        Usuario.</small>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-error" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primario" data-bs-dismiss="modal"
+                        (click)="eliminar(u.idusuario)">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+@if(alertConfirmEliminar){
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-1"></i>
+    <div>
+        Usuario eliminado correctamente!
+    </div>
+</div>
+}
+@if(alertErrorEliminar){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        Error al eliminar el usuario.
+    </div>
+</div>
+}

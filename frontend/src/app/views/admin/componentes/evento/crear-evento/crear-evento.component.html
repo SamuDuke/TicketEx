@@ -1,0 +1,133 @@
+<div class="container">
+    <h2 class="text-center">Crear</h2>
+    <form class="row g-3 align-items-center mb-4" [formGroup]="formularioEvento">
+        <div class="col-12 col-md-6">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" formControlName="nombre"
+                [ngClass]="{'is-invalid':submitted && formularioEvento.controls.nombre.errors}" id="nombre"
+                placeholder="Nombre">
+            @if (formularioEvento.get('nombre')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+            @if (formularioEvento.get('nombre')?.errors?.['maxlength']) {
+            <div class="invalid-feedback">No puede tener más de 45 caracteres</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="fecha" class="form-label">Fecha</label>
+            <input type="date" class="form-control" formControlName="fecha"
+                [ngClass]="{'is-invalid':submitted && formularioEvento.controls.fecha.errors}" id="fecha">
+            @if (formularioEvento.get('fecha')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="hora" class="form-label">Hora</label>
+            <input type="time" class="form-control" formControlName="hora"
+                [ngClass]="{'is-invalid':submitted && formularioEvento.controls.hora.errors}" id="hora">
+            @if (formularioEvento.get('hora')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 col-md-6">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <input type="text" class="form-control" formControlName="descripcion"
+                [ngClass]="{'is-invalid':submitted && formularioEvento.controls.descripcion.errors}" id="descripcion"
+                placeholder="Introduce una breve descripción de la categoría">
+            @if (formularioEvento.get('descripcion')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+            @if (formularioEvento.get('descripcion')?.errors?.['maxlength']) {
+            <div class="invalid-feedback">No puede tener más de 256 caracteres</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="edad" class="form-label">Edad</label>
+            <input type="number" class="form-control" formControlName="edad"
+                [ngClass]="{'is-invalid':submitted && formularioEvento.controls.edad.errors}" id="edad"
+                placeholder="Edad">
+            @if (formularioEvento.get('edad')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="categoria" class="form-label">Categoria</label>
+            <select id="categoria" class="form-select" formControlName="categoria"
+                [ngClass]="{'is-invalid':submitted && formularioEvento.controls.categoria.errors}"
+                placeholder="Escoge la Categoria a la que pertenece">
+                <option value="" selected>Escoge una categoria</option>
+                @for (c of categorias; track $index) {
+                <option value="{{c.idcategoria}}">{{c.nombre}}</option>
+                }
+            </select>
+            @if (formularioEvento.get('categoria')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="lugar" class="form-label">Lugar</label>
+            <select id="lugar" class="form-select" formControlName="lugar"
+                [ngClass]="{'is-invalid':submitted && formularioEvento.controls.lugar.errors}"
+                placeholder="Escoge el lugar donde se celebra">
+                <option value="" selected>Escoge un lugar</option>
+                @for (l of lugares; track $index) {
+                <option value="{{l.idlugar}}">{{l.nombre}}</option>
+                }
+            </select>
+            @if (formularioEvento.get('lugar')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 mb-2">
+            <label for="img" class="form-label">Imagen</label>
+            <input type="file" class="form-control" formControlName="img" (change)="onFileSelected($event)"
+                [ngClass]="{'is-invalid':submitted && formularioEvento.controls.img.errors}" id="precio" id="img">
+            @if (formularioEvento.get('img')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        @if(srcPreview != ''){
+        <div class="col-12 mb-3 d-flex justify-content-center">
+            <img id="preview" [src]="srcPreview" alt="preview" class="card-img">
+        </div>
+        }
+        <div class="col-6 mt-2 d-grid gap-2">
+            <button type="reset" class="btn btn-secundario" (click)="limpiar()">Limpiar</button>
+        </div>
+        <div class="col-6 mt-2 d-grid gap-2">
+            <button type="submit" class="btn btn-primario_claro" data-bs-toggle="modal"
+                data-bs-target="#crearModal">Crear</button>
+        </div>
+        <!-- Modal de confirmación -->
+        <div class="modal fade" id="crearModal" tabindex="-1" data-bs-theme="dark">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">¿Seguro que quieres crear el evento
+                            "{{formularioEvento.value.nombre}}"?</h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-error" data-bs-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-primario" data-bs-dismiss="modal" (click)="enviar()">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@if(alertConfirmCrear){
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-1"></i>
+    <div>
+        Evento creado correctamente!
+    </div>
+</div>
+}
+@if(alertErrorCrear){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        Error al crear el evento.
+    </div>
+</div>
+}

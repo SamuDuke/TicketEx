@@ -1,0 +1,47 @@
+<div class="container mt-5 p-4" id="login">
+    <h1 class="text-center"><strong>Inicio de Sesión</strong></h1>
+    <p class="text-center">¡Bienvenido! Introduce tus datos</p>
+    <form class="row" [formGroup]="formularioLogin" (ngSubmit)="logear()">
+        <div class="col-12 mb-3 mt-2">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control"
+                [ngClass]="{'is-invalid':submitted && formularioLogin.controls.email.errors}" formControlName="email"
+                id="email" placeholder="Ingrese su email">
+            @if (formularioLogin.get('email')?.errors?.['required']) {
+            <div class="invalid-feedback">El campo es obligatorio.</div>
+            }
+            @if (formularioLogin.get('email')?.errors?.['email']) {
+            <div class="invalid-feedback">El campo debe ser un correo.</div>
+            }
+        </div>
+        <div class="col-12 mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" class="form-control"
+                [ngClass]="{'is-invalid':submitted && formularioLogin.controls.psw.errors}" formControlName="psw"
+                id="password" placeholder="Ingrese su contraseña">
+            <div class="invalid-feedback">El campo es obligatorio.</div>
+        </div>
+        <div class="col-12 mb-4 d-grid gap-2">
+            <button type="submit" class="btn btn-primario">Iniciar Sesión</button>
+            <button type="reset" class="btn btn-secundario">Limpiar</button>
+        </div>
+    </form>
+    <p class="text-center text-secundario">¿No tienes cuenta? <a routerLink="../registro">Regístrate</a></p>
+</div>
+
+@if(alertEmailErroneo){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        El correo introducido no existe.
+    </div>
+</div>
+}
+@if(alertPswErroneo){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        La contraseña no es correcta.
+    </div>
+</div>
+}

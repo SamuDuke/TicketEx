@@ -1,0 +1,36 @@
+@media (width >= 992px) {
+    #login {
+        max-width: 40vw;
+    }
+}
+
+@media (max-width: 992px) {
+    #login {
+        max-width: 60vw;
+    }
+}
+
+@media (max-width: 768px) {
+    #login {
+        max-width: 80vw;
+    }
+}
+
+@media (max-width: 576px) {
+    #login {
+        max-width: 90vw;
+    }
+}
+
+#login {
+    background-color: #fff;
+    border-radius: 10px;
+    color: #000;
+}
+
+.alert {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+}

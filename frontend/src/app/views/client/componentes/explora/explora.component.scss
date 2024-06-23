@@ -1,0 +1,23 @@
+.card {
+    img {
+        width: 100%;
+        height: 40vw;
+        object-fit: cover;
+    }
+}
+
+@media (width >= 460px) {
+    .card {
+        img {
+            height: 25vw;
+        }
+    }
+}
+
+@media (width >= 768px) {
+    .card {
+        img {
+            height: 15vw;
+        }
+    }
+}

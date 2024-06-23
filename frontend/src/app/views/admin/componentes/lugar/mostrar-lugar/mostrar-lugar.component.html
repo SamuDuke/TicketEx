@@ -1,0 +1,59 @@
+<div class="container mb-3">
+    <h2 class="text-center">Listado</h2>
+    <div class="row gx-4 gy-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+        @for (l of lugares; track $index) {
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{l.nombre}}</h5>
+                    <p class="card-text">{{l.direccion}}, {{l.provincia.nombre}}</p>
+                    <a class="btn btn-success" routerLink="../editar/{{l.idlugar}}">Editar</a>
+                    <a class="btn btn-danger" data-bs-toggle="modal"
+                    [attr.data-bs-target]="'#eliminarModal' + l.idlugar">Eliminar</a>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    @for (l of lugares; track $index) {
+    <!-- Modal de confirmación -->
+    <div class="modal fade" [id]="'eliminarModal' + l.idlugar" tabindex="-1" data-bs-theme="dark">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">¿Seguro que quieres eliminar el lugar
+                        "{{l.nombre}}"?</h1>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-error" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primario" data-bs-dismiss="modal"
+                        (click)="eliminar(l.idlugar)">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    <div class="mapa">
+        <google-map width="90vw" [options]="options">
+            @for (loc of locations; track $index) {
+            <map-advanced-marker [position]="{lat: loc.lat, lng: loc.lng}" />
+            }
+        </google-map>
+    </div>
+</div>
+@if(alertConfirmEliminar){
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-1"></i>
+    <div>
+        Lugar eliminado correctamente!
+    </div>
+</div>
+}
+@if(alertErrorEliminar){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        No se puede eliminar un lugar que tenga un evento asociado.
+    </div>
+</div>
+}

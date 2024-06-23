@@ -1,0 +1,31 @@
+<ul class="nav nav-pills" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+            type="button" role="tab"><i class="bi bi-compass-fill"></i></button>
+        <p>Explora</p>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-search-tab" data-bs-toggle="pill" data-bs-target="#pills-search"
+            type="button" role="tab"><i class="bi bi-search"></i></button>
+        <p>Buscar</p>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-tickets"
+            type="button" role="tab"><i class="bi bi-ticket-perforated-fill"></i></button>
+        <p>Entradas</p>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+            type="button" role="tab"><i class="bi bi-person-circle"></i></button>
+        <p>Cuenta</p>
+    </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" tabindex="0"><app-explora
+            [usuario]="usuario"></app-explora></div>
+    <div class="tab-pane fade" id="pills-search" role="tabpanel" tabindex="0"><app-buscar></app-buscar></div>
+    <div class="tab-pane fade" id="pills-tickets" role="tabpanel" tabindex="0"><app-entradas
+            [usuario]="usuario"></app-entradas></div>
+    <div class="tab-pane fade" id="pills-profile" role="tabpanel" tabindex="0"><app-cuenta
+            [usuario]="usuario" (entradas)="actualizar($event)"></app-cuenta></div>
+</div>

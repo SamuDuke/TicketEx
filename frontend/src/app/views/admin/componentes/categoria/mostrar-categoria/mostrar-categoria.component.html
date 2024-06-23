@@ -1,0 +1,53 @@
+<div class="container mb-3">
+    <h2 class="text-center">Listado</h2>
+    <div class="row gx-4 gy-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+        @for (cat of categorias; track $index) {
+        <div class="col">
+            <div class="card">
+                <img [src]="obtenerRutaImagen(cat.img)" class="card-img-top" alt="{{cat.nombre}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{cat.nombre}}</h5>
+                    <p class="card-text">{{cat.descripcion}}</p>
+                    <a class="btn btn-primario_claro me-2" routerLink="../editar/{{cat.idcategoria}}">Editar</a>
+                    <a class="btn btn-danger" data-bs-toggle="modal"
+                        [attr.data-bs-target]="'#eliminarModal' + cat.idcategoria">Eliminar</a>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    @for (cat of categorias; track $index) {
+    <!-- Modal de confirmación -->
+    <div class="modal fade" [id]="'eliminarModal' + cat.idcategoria" tabindex="-1" data-bs-theme="dark">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">¿Seguro que quieres eliminar la categoría
+                        "{{cat.nombre}}"?</h1>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-error" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primario" data-bs-dismiss="modal"
+                        (click)="eliminar(cat.idcategoria)">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+@if(alertConfirmEliminar){
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-1"></i>
+    <div>
+        Categoría eliminada correctamente!
+    </div>
+</div>
+}
+@if(alertErrorEliminar){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        No se puede eliminar una categoría que tenga eventos activos.
+    </div>
+</div>
+}

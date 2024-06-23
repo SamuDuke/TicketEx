@@ -1,0 +1,89 @@
+<div class="container">
+    <h2>Cuenta</h2>
+    @if (usuario != undefined) {
+    <div class="list-group">
+        <a routerLink="../cuenta/editar/{{usuario.idusuario}}"
+            class="list-group-item list-group-item-action list-group-item-dark">
+            <div class="d-flex w-100 justify-content-start align-items-center">
+                <h2><i class="bi bi-person-square"></i></h2>
+                <div class="ms-4">
+                    <h5 class="mb-1">{{usuario.nombre | uppercase}} {{usuario.apellidos | uppercase}}</h5>
+                    <p class="fw-medium mb-1">{{usuario.correo}}</p>
+                    <small class="text-body-secondary">Configuración de tu cuenta</small>
+                </div>
+            </div>
+        </a>
+        <a class="list-group-item list-group-item-action list-group-item-light" data-bs-toggle="modal"
+            data-bs-target="#ciudadFavModal">
+            <div class="d-flex justify-content-start align-items-center">
+                <i class="bi bi-houses-fill"></i>
+                <div class="ms-3">
+                    <p class="fw-bold mb-1">{{usuario.provinciafav.nombre}}</p>
+                    <small class="text-body-secondary">Cambiar ciudad</small>
+                </div>
+            </div>
+        </a>
+
+        <!-- Modal ciudad favorita -->
+        <div class="modal fade" id="ciudadFavModal" tabindex="-1" data-bs-theme="dark">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Cambiar Ciudad Preferida</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="formularioCiudadFav">
+                            <label for="provinciafav" class="form-label">Ciudades</label>
+                            <select id="provinciafav" class="form-select" formControlName="ciudad">
+                                @for (p of provincias; track $index) {
+                                @if (p.nombre == usuario.provinciafav.nombre) {
+                                <option selected value="{{p.idprovincia}}">{{p.nombre}}</option>
+                                } @else {
+                                <option value="{{p.idprovincia}}">{{p.nombre}}</option>
+                                }
+                                }
+                            </select>
+                            <button type="button" class="btn btn-primario mt-2"
+                                (click)="cambiarCiudadFav()">Guardar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <a class="list-group-item list-group-item-action list-group-item-light" (click)="navegarEntradas()">
+            <div class="d-flex justify-content-start align-items-center">
+                <i class="bi bi-ticket-perforated-fill"></i>
+                <div class="ms-3">
+                    <p class="fw-bold mb-1">Tickets</p>
+                    <small class="text-body-secondary">Ver todos mis tickets</small>
+                </div>
+            </div>
+        </a>
+        <a class="list-group-item list-group-item-action list-group-item-light" data-bs-toggle="modal"
+            data-bs-target="#cerrarSesion">
+            <div class="d-flex justify-content-start align-items-center">
+                <i class="bi bi-box-arrow-in-right text-danger"></i>
+                <p class="fw-bold ms-3 mb-0">Cerrar Sesión</p>
+            </div>
+        </a>
+        <!-- Modal de confirmación -->
+        <div class="modal fade" id="cerrarSesion" tabindex="-1" data-bs-theme="dark">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">¿Seguro que quieres cerrar sesión?</h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-error" data-bs-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-primario" data-bs-dismiss="modal"
+                            (click)="cerrarSesion()">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>

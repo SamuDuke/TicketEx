@@ -1,0 +1,91 @@
+<div class="container">
+    <h2 class="text-center mb-3">Editar</h2>
+    <form class="row g-3 align-items-center mb-4" [formGroup]="formularioLugar">
+        <div class="col-12 col-md-4 mb-2">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" formControlName="nombre"
+                [ngClass]="{'is-invalid':submitted && formularioLugar.controls.nombre.errors}" id="nombre"
+                placeholder="Nombre">
+            @if (formularioLugar.get('nombre')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+            @if (formularioLugar.get('nombre')?.errors?.['maxlength']) {
+            <div class="invalid-feedback">No puede tener más de 64 caracteres</div>
+            }
+        </div>
+        <div class="col-12 col-md-8 mb-2">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input type="text" class="form-control" formControlName="direccion"
+                [ngClass]="{'is-invalid':submitted && formularioLugar.controls.direccion.errors}" id="direccion"
+                placeholder="Dirección">
+            @if (formularioLugar.get('direccion')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+            @if (formularioLugar.get('direccion')?.errors?.['maxlength']) {
+            <div class="invalid-feedback">No puede tener más de 128 caracteres</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="provincia" class="form-label">Provincia</label>
+            <select id="provincia" class="form-select" formControlName="provincia"
+                [ngClass]="{'is-invalid':submitted && formularioLugar.controls.provincia.errors}"
+                placeholder="Escoge tu Provincia">
+                <option value="" selected>Escoge una provincia</option>
+                @for (p of provincias; track $index) {
+                <option value="{{p.idprovincia}}">{{p.nombre}}</option>
+                }
+            </select>
+            @if (formularioLugar.get('provincia')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        @defer (on timer(1s)) {
+        <div class="mapa col-12 mb-2">
+            <google-map width="90vw" [options]="options" (mapClick)="addMarker($event)">
+                <map-advanced-marker #marker="mapAdvancedMarker" [position]="marcador"
+                    (mapClick)="openInfo(marker, infoWindow)" />
+                <map-info-window #infoWindow="mapInfoWindow">Latitud: {{marcador.lat}}, Longitud:
+                    {{marcador.lng}}</map-info-window>
+            </google-map>
+        </div>
+        }
+        <div class="col-6 mt-2 d-grid gap-2">
+            <button type="reset" class="btn btn-secundario">Limpiar</button>
+        </div>
+        <div class="col-6 mt-2 d-grid gap-2">
+            <button type="submit" class="btn btn-primario_claro" data-bs-toggle="modal"
+                data-bs-target="#crearModal">Editar</button>
+        </div>
+        <!-- Modal de confirmación -->
+        <div class="modal fade" id="crearModal" tabindex="-1" data-bs-theme="dark">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">¿Seguro que quieres editar el lugar
+                            "{{formularioLugar.value.nombre}}"?</h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-error" data-bs-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-primario" data-bs-dismiss="modal" (click)="enviar()">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@if(alertConfirmEditar){
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-1"></i>
+    <div>
+        Lugar editado correctamente!
+    </div>
+</div>
+}
+@if(alertErrorEditar){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        Error al editar el lugar.
+    </div>
+</div>
+}

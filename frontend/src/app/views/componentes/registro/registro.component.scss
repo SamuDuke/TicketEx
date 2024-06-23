@@ -1,0 +1,36 @@
+@media (width >= 992px) {
+    #registro {
+        max-width: 50vw;
+    }
+}
+
+@media (max-width: 992px) {
+    #registro {
+        max-width: 70vw;
+    }
+}
+
+@media (max-width: 768px) {
+    #registro {
+        max-width: 80vw;
+    }
+}
+
+@media (max-width: 576px) {
+    #registro {
+        max-width: 90vw;
+    }
+}
+
+#registro{
+    background-color: #fff;
+    border-radius: 10px;
+    color: #000;
+}
+
+.alert {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+}

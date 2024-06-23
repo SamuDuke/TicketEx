@@ -1,0 +1,54 @@
+<div class="container mb-3">
+    <h2 class="text-center">Listado</h2>
+    <div class="row gx-4 gy-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+        @for (ent of entradas; track $index) {
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ent.evento.nombre}}</h5>
+                    <p class="card-text">{{ent.usuario.correo}}</p>
+                    <p class="card-text">{{ent.precio}}</p>
+                    <p class="card-text">{{ent.estado}}</p>
+                    <a class="btn btn-success" routerLink="../editar/{{ent.identrada}}">Editar</a>
+                    <a class="btn btn-danger" data-bs-toggle="modal"
+                        [attr.data-bs-target]="'#eliminarModal' + ent.identrada">Eliminar</a>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    @for (ent of entradas; track $index) {
+    <!-- Modal de confirmación -->
+    <div class="modal fade" [id]="'eliminarModal' + ent.identrada" tabindex="-1" data-bs-theme="dark">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">¿Seguro que quieres eliminar la entrada del evento
+                        "{{ent.evento.nombre}}"?</h1>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-error" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primario" data-bs-dismiss="modal"
+                        (click)="eliminar(ent.identrada)">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+@if(alertConfirmEliminar){
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-1"></i>
+    <div>
+        Entrada eliminada correctamente!
+    </div>
+</div>
+}
+@if(alertErrorEliminar){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        Error al eliminar la entrada.
+    </div>
+</div>
+}

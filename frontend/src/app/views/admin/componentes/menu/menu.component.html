@@ -1,0 +1,55 @@
+<nav id="mainNav" class="navbar navbar-expand-md" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand">ticketex</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavbarContent"
+            aria-controls="navbarToggleExternalContent" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="collapseNavbarContent">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a routerLink="./categoria" class="nav-link">Categorias</a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="./ccaa" class="nav-link">CCAA</a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="./entrada" class="nav-link">Entradas</a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="./evento" class="nav-link">Eventos</a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="./lugar" class="nav-link">Lugares</a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="./provincia" class="nav-link">Provincias</a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="./usuario" class="nav-link">Usuarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="modal" data-bs-target="#cerrarSesion">Logout</a>
+                </li>
+            </ul>
+        </div>
+        <!-- Modal de confirmación -->
+        <div class="modal fade" id="cerrarSesion" tabindex="-1" data-bs-theme="dark">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">¿Seguro que quieres cerrar sesión?</h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-error" data-bs-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-primario" data-bs-dismiss="modal"
+                            (click)="cerrarSesion()">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<router-outlet></router-outlet>

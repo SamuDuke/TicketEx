@@ -1,0 +1,141 @@
+<div class="container">
+    <div class="input-group mb-3" data-bs-theme="dark">
+        <div class="input-group-text" id="btnGroupAddon"><i class="bi bi-search"></i></div>
+        <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Busca tu próximo evento"
+            [(ngModel)]="nombre">
+        <datalist id="datalistOptions">
+            @for (e of eventos; track $index) {
+            <option value="{{e.nombre}}"></option>
+            }
+        </datalist>
+    </div>
+    <div class="d-flex justify-content-center mb-2" data-bs-theme="dark" id="scroll">
+        @if (fechaI == '' && fechaF == '') {
+        <button class="btn btn-secondary me-2" type="button" data-bs-toggle="modal" data-bs-target="#fechaModal"><i
+                class="bi bi-calendar-event"></i> Fecha</button>
+        } @else if (fechaI != '' && fechaF == '') {
+        <button class="btn btn-secondary me-2" type="button" data-bs-toggle="modal" data-bs-target="#fechaModal"><i
+                class="bi bi-calendar-event"></i> {{formateoFechaInv(fechaI)}}</button>
+        } @else if (fechaI == '' && fechaF != '') {
+        <button class="btn btn-secondary me-2" type="button" data-bs-toggle="modal" data-bs-target="#fechaModal"><i
+                class="bi bi-calendar-event"></i> {{formateoFechaInv(fechaF)}}</button>
+        } @else {
+        <button class="btn btn-secondary me-2" type="button" data-bs-toggle="modal" data-bs-target="#fechaModal"><i
+                class="bi bi-calendar-event"></i> {{formateoFechaInv(fechaI)}}-{{formateoFechaInv(fechaF)}}</button>
+        }
+        @if (ciudad == '' ) {
+        <button class="btn btn-secondary ms-2 me-2" type="button" data-bs-toggle="modal"
+            data-bs-target="#ciudadModal"><i class="bi bi-geo-alt-fill"></i> Ciudad</button>
+        } @else {
+        <button class="btn btn-secondary ms-2 me-2" type="button" data-bs-toggle="modal"
+            data-bs-target="#ciudadModal"><i class="bi bi-geo-alt-fill"></i> {{ciudad}}</button>
+        }
+        @if (categoria == '' ) {
+        <button class="btn btn-secondary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#categoriaModal"><i
+                class="bi bi-bookmark-fill"></i> Categoría</button>
+        } @else {
+        <button class="btn btn-secondary ms-2" type="button" data-bs-toggle="modal" data-bs-target="#categoriaModal"><i
+                class="bi bi-bookmark-fill"></i> {{categoria}}</button>
+        }
+    </div>
+    <div class="col-12 d-grid gap-2 mb-2">
+        <button class="btn btn-secundario" type="button" (click)="limpiarFiltros()">Limpiar Filtros</button>
+    </div>
+    <!-- Modal de fecha -->
+    <div class="modal fade" id="fechaModal" tabindex="-1" data-bs-theme="dark">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Fecha</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="fechaInicio">Desde</label>
+                    <input [(ngModel)]="fechaI" type="date" class="form-control mb-2" id="fechaInicio">
+                    <label for="fechaFin">Hasta</label>
+                    <input [(ngModel)]="fechaF" type="date" class="form-control mb-2" id="fechaFin">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secundario" (click)="limpiarF()">Limpiar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de ciudad -->
+    <div class="modal fade" id="ciudadModal" tabindex="-1" data-bs-theme="dark">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Ciudad</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="provincia" class="form-label">Ciudades</label>
+                    <select [(ngModel)]="ciudad" id="provincia" class="form-select">
+                        <option selected value="">Todas las ciudades</option>
+                        @for (p of provincias; track $index) {
+                        <option value="{{p.nombre}}">{{p.nombre}}</option>
+                        }
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secundario" (click)="limpiarCiu()">Limpiar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de categoria -->
+    <div class="modal fade" id="categoriaModal" tabindex="-1" data-bs-theme="dark">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Categoría</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="categoria" class="form-label">Categorías</label>
+                    <select [(ngModel)]="categoria" id="categoria" class="form-select">
+                        <option selected value="">Todas las categorías</option>
+                        @for (c of categorias; track $index) {
+                        <option value="{{c.nombre}}">{{c.nombre}}</option>
+                        }
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secundario" (click)="limpiarCat()">Limpiar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if(nombre != '' || fechaI != '' || fechaF != '' || ciudad != '' || categoria != ''){
+    <div class="row gx-4 gy-4 row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mb-3 mt-3">
+        @for (e of filtrarEventos(); track $index) {
+        <div class="col">
+            <div class="card">
+                <img [src]="obtenerRutaImagenEv(e.img)" alt="imagen" class="card-img-top imagen-ev">
+                <div class="card-body">
+                    <h5 class="card-title">{{e.nombre}}</h5>
+                    <p class="card-text">{{e.descripcion}}</p>
+                    <p class="card-text">{{formateoFechaInv(e.fecha)}}</p>
+                    <button class="btn btn-primario_claro" routerLink="../evento/{{e.idevento}}">Detalles</button>
+                </div>
+            </div>
+        </div>
+
+        }
+    </div>
+    } @else {
+    <div class="row gx-4 gy-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+        @for (cat of categorias; track $index) {
+        <div class="col">
+            <div class="card">
+                <img [src]="obtenerRutaImagenCat(cat.img)" alt="imagen" class="card-img-top imagen-cat">
+                <div class="card-body d-flex justify-content-center">
+                    <a class="btn btn-primario_claro text-center" (click)="buscarCat(cat.nombre)">{{cat.nombre}}</a>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    }
+</div>

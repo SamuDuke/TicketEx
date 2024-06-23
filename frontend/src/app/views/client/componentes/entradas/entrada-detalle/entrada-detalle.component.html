@@ -1,0 +1,252 @@
+<app-header [usuario]="loggedUser"></app-header>
+@if(entrada != undefined){
+<button type="button" class="btn btn-secundario btn-sm ms-3" (click)="retornar()"><span
+        class="bi bi-chevron-left"></span></button>
+<div class="container d-flex justify-content-center">
+    <div class="card m-3" id="detalle">
+        <img [src]="obtenerRutaImagenEv(entrada.evento.img)" alt="imagen" class="card-img-top">
+        <div class="card-body">
+            <h2 class="card-title">{{entrada.evento.nombre}}</h2>
+            <small class="card-text text-body-secondary"><i class="bi bi-geo-alt-fill"></i>
+                {{entrada.evento.lugar.nombre}}</small>
+            <hr>
+            <div class="d-flex justify-content-start align-items-center">
+                <i class="bi bi-calendar-event-fill"></i>
+                <div class="ms-3">
+                    <p class="fw-bold mb-1">{{formateoFechaEsp(entrada.evento.fecha)}}, {{entrada.evento.hora}}</p>
+                    <small class="text-body-secondary">Entrada por {{entrada.precio}}€</small>
+                </div>
+            </div>
+            @if(entrada.estado === 'comprada'){
+            <hr>
+            <p class="card-title text-body-secondary">Ticket disponible</p>
+            <div class="d-flex justify-content-center mt-2">
+                <img [src]="obtenerRutaImagenEntrada(entrada.img)" alt="codigo qr" class="card-img" id="qr">
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-error" type="button" data-bs-toggle="modal"
+                    data-bs-target="#eliminarModal">Eliminar</button>
+                <button class="btn btn-secondary" type="button" data-bs-toggle="modal"
+                    data-bs-target="#ponerEnVentaModal">Poner en venta</button>
+            </div>
+            }
+            <!-- Modal de confirmación de eliminar-->
+            <div class="modal fade" id="eliminarModal" tabindex="-1" data-bs-theme="dark">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">¿Seguro que quieres eliminar tu entrada?</h1>
+                        </div>
+                        <div class="modal-body">
+                            <small class="text-body-secondary">Si eliminas la entrada, esta desaparecerá de tu lista de
+                                entradas compradas</small>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-error" data-bs-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-primario" data-bs-dismiss="modal"
+                                (click)="eliminarEntrada()">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal poner en venta entrada -->
+            <div class="modal fade" id="ponerEnVentaModal" tabindex="-1" data-bs-theme="dark">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Poner en venta</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="number" class="form-control" id="precio" placeholder="Precio de venta"
+                                [(ngModel)]="precioVenta">
+                            <div class="d-flex justify-content-end mt-3">
+                                <button type="button" class="btn btn-secundario me-2"
+                                    (click)="limpiarV()">Limpiar</button>
+                                <button type="button" class="btn btn-primario" data-bs-target="#confirmacionV"
+                                    data-bs-toggle="modal">Vender</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal de confirmación de poner en venta-->
+            <div class="modal fade" id="confirmacionV" tabindex="-1" data-bs-theme="dark">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">¿Seguro que quieres vender tu entrada a
+                                "{{precioVenta}}€"?</h1>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-error" data-bs-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-primario" data-bs-dismiss="modal"
+                                (click)="ponerEnVenta()">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if(entrada.estado === 'en venta'){
+            <hr>
+            <small class="card-title text-body-secondary">Nadie ha reservado tu entrada aún.</small>
+            <hr>
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-error" type="button" data-bs-toggle="modal"
+                    data-bs-target="#eliminarModal">Eliminar</button>
+                <button class="btn btn-secondary" type="button" data-bs-toggle="modal"
+                    data-bs-target="#editarModal">Editar</button>
+            </div>
+            }
+            <!-- Modal editar entrada -->
+            <div class="modal fade" id="editarModal" tabindex="-1" data-bs-theme="dark">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Editar precio</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="number" class="form-control" id="precio" placeholder="Nuevo precio"
+                                [(ngModel)]="precioNuevo">
+                            <div class="d-flex justify-content-end mt-3">
+                                <button type="button" class="btn btn-secundario me-2"
+                                    (click)="limpiarE()">Limpiar</button>
+                                <button type="button" class="btn btn-primario" data-bs-target="#confirmacionE"
+                                    data-bs-toggle="modal">Cambiar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal de confirmación de editar-->
+            <div class="modal fade" id="confirmacionE" tabindex="-1" data-bs-theme="dark">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">¿Seguro que quieres actualizar el precio de tu entrada a
+                                "{{precioNuevo}}€"?</h1>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-error" data-bs-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-primario" data-bs-dismiss="modal"
+                                (click)="actualizarPrecio()">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if(entrada.estado === 'reservada'){
+            <hr>
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-error" type="button" data-bs-toggle="modal"
+                    data-bs-target="#eliminarModal">Eliminar</button>
+                <button class="btn btn-secondary" type="button" data-bs-toggle="modal"
+                    data-bs-target="#venderModal">Vender</button>
+            </div>
+            <!-- Modal vender entrada -->
+            <div class="modal fade" id="venderModal" tabindex="-1" data-bs-theme="dark">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Vender entrada</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input class="form-control" list="datalistOptions" id="exampleDataList"
+                                placeholder="Busca el usuario al que vender" [(ngModel)]="correoVender">
+                            <div class="d-flex justify-content-end mt-3">
+                                <button type="button" class="btn btn-secundario me-2"
+                                    (click)="limpiarC()">Limpiar</button>
+                                <button type="button" class="btn btn-primario" data-bs-target="#confirmacion"
+                                    data-bs-toggle="modal">Vender</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal de confirmación -->
+            <div class="modal fade" id="confirmacion" tabindex="-1" data-bs-theme="dark">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">¿Seguro que quieres vender tu entrada a "{{correoVender}}"?
+                            </h1>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-error" data-bs-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-primario" data-bs-dismiss="modal"
+                                (click)="venderEntrada()">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+@if(mostrarAlertConfirmacionEliminada){
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-1"></i>
+    <div>
+        Entrada eliminada correctamente!
+    </div>
+</div>
+}
+@if(mostrarAlertErrorEliminada){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        Error al eliminar tu entrada.
+    </div>
+</div>
+}
+@if(mostrarAlertConfirmacionEnVenta){
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-1"></i>
+    <div>
+        Entrada puesta en venta correctamente!
+    </div>
+</div>
+}
+@if(mostrarAlertErrorEnVenta){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        Error al poner en venta tu entrada.
+    </div>
+</div>
+}
+@if(mostrarAlertConfirmacionPrecio){
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-1"></i>
+    <div>
+        Precio de la entrada actualizado correctamente!
+    </div>
+</div>
+}
+@if(mostrarAlertErrorPrecio){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        Error al modificar el precio.
+    </div>
+</div>
+}
+@if(mostrarAlertConfirmacion){
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-1"></i>
+    <div>
+        Entrada vendida correctamente!
+    </div>
+</div>
+}
+@if(mostrarAlertError){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        Error al vender tu entrada, correo no existente.
+    </div>
+</div>
+}
+}

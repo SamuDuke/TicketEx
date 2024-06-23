@@ -1,0 +1,11 @@
+<nav class="navbar mb-2" data-bs-theme="dark">
+    <div class="container-fluid d-flex justify-content-between ms-2 me-2">
+        <a class="navbar-brand">ticketex</a>
+        <div class="d-flex justify-content-center align-items-center">
+            <i class="bi bi-geo-alt-fill me-1"></i>
+            @if(usuario != undefined){
+            <p>{{usuario.provinciafav.nombre}}</p>
+            }
+        </div>
+    </div>
+</nav>

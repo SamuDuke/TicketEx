@@ -1,0 +1,71 @@
+<div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-primario_claro btn-lg me-3" id="add" routerLink="../subir/entrada"><span
+            class="bi bi-plus-circle-fill"></span></button>
+</div>
+<div class="container">
+    @if(usuario != undefined){
+    @if(filtrarEntradas().length === 0){
+    <h2 class="text-center">Aún no tienes entradas compradas o en venta.</h2>
+    } @else if(filtrarEntradasCompradas().length !== 0){
+    <h2 class="text-center">Compradas</h2>
+    <div class="row gx-4 gy-4 row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mb-5">
+        @for (e of filtrarEntradasCompradas(); track $index) {
+        <div class="col">
+            <div class="card">
+                <img [src]="obtenerRutaImagenEv(e.evento.img)" alt="imagen" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{e.evento.nombre}}</h5>
+                    <p class="card-text"><small class="text-body-secondary"><i
+                                class="bi bi-geo-alt-fill"></i>{{e.evento.lugar.nombre}}</small></p>
+                    <p class="card-text"><small class="text-body-secondary"><i class="bi bi-calendar2-event-fill"></i>
+                            {{formateoFechaInv(e.evento.fecha)}},
+                            {{e.evento.hora}}</small></p>
+                    <button class="btn btn-primario_claro" routerLink="../entrada/{{e.identrada}}">Detalles</button>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    } @if (filtrarEntradasVenta().length !== 0 || filtrarEntradasReservadas().length !== 0) {
+    <h2 class="text-center">En venta/Reserva</h2>
+    <div class="row gx-4 gy-4 row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mb-3">
+        @for (e of filtrarEntradasVenta(); track $index) {
+        <div class="col">
+            <div class="card">
+                <img [src]="obtenerRutaImagenEv(e.evento.img)" alt="imagen" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{e.evento.nombre}}</h5>
+                    <p class="card-text"><small class="text-body-secondary"><i
+                                class="bi bi-geo-alt-fill"></i>{{e.evento.lugar.nombre}}</small></p>
+                    <p class="card-text"><small class="text-body-secondary"><i class="bi bi-calendar2-event-fill"></i>
+                            {{formateoFechaInv(e.evento.fecha)}},
+                            {{e.evento.hora}}</small></p>
+                    <p class="card-text"><small class="text-body-secondary">En venta por: {{e.precio}}<i
+                                class="bi bi-currency-euro"></i></small></p>
+                    <button class="btn btn-primario_claro" routerLink="../entrada/{{e.identrada}}">Detalles</button>
+                </div>
+            </div>
+        </div>
+        }
+        @for (e of filtrarEntradasReservadas(); track $index) {
+        <div class="col">
+            <div class="card">
+                <img [src]="obtenerRutaImagenEv(e.evento.img)" alt="imagen" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{e.evento.nombre}}</h5>
+                    <p class="card-text"><small class="text-body-secondary"><i
+                                class="bi bi-geo-alt-fill"></i>{{e.evento.lugar.nombre}}</small></p>
+                    <p class="card-text"><small class="text-body-secondary"><i class="bi bi-calendar2-event-fill"></i>
+                            {{formateoFechaInv(e.evento.fecha)}},
+                            {{e.evento.hora}}</small></p>
+                    <p class="card-text"><small class="text-body-secondary">Reservada por: {{e.precio}}<i
+                                class="bi bi-currency-euro"></i></small></p>
+                    <button class="btn btn-primario_claro" routerLink="../entrada/{{e.identrada}}">Detalles</button>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    }
+    }
+</div>

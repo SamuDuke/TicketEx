@@ -1,0 +1,183 @@
+<div class="container">
+    <h2 class="text-center mb-3">Editar</h2>
+    <form class="row g-3 align-items-center mb-4" [formGroup]="formularioUsuario">
+        <div class="col-12 col-md-6 mb-2">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" formControlName="nombre"
+                [ngClass]="{'is-invalid':submitted && formularioUsuario.controls.nombre.errors}" id="nombre"
+                placeholder="Nombre">
+            @if (formularioUsuario.get('nombre')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+            @if (formularioUsuario.get('nombre')?.errors?.['maxlength']) {
+            <div class="invalid-feedback">No puede tener más de 45 caracteres</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="apellidos" class="form-label">Apellidos</label>
+            <input type="text" class="form-control" formControlName="apellidos"
+                [ngClass]="{'is-invalid':submitted && formularioUsuario.controls.apellidos.errors}" id="apellidos"
+                placeholder="Apellidos">
+            @if (formularioUsuario.get('apellidos')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+            @if (formularioUsuario.get('apellidos')?.errors?.['maxlength']) {
+            <div class="invalid-feedback">No puede tener más de 45 caracteres</div>
+            }
+        </div>
+        <div class="col-12">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" formControlName="email"
+                [ngClass]="{'is-invalid':submitted && formularioUsuario.controls.email.errors}" id="email"
+                placeholder="ejmplo@gmail.com">
+            @if (formularioUsuario.get('email')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+            @if (formularioUsuario.get('email')?.errors?.['maxlength']) {
+            <div class="invalid-feedback">No puede tener más de 100 caracteres</div>
+            }
+            @if (formularioUsuario.get('email')?.errors?.['correoValido']) {
+            <div class="invalid-feedback">El campo debe ser un correo válido.</div>
+            }
+        </div>
+        <div class="col-12 mb-2">
+            <span id="passwordHelpInline" class="form-text text-ayuda">
+                El correo debe comenzar por cualquier caracter, numero o caracter especial (_ . -),
+                seguido de una "&#64;", con dominio (gmail, hotmail o educa.jcyl) y terminar por (.com o .es).
+            </span>
+        </div>
+        <div class="col-12">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" formControlName="psw"
+                [ngClass]="{'is-invalid':submitted && formularioUsuario.controls.psw.errors}" id="password"
+                placeholder="Ingrese su contraseña">
+            @if (formularioUsuario.get('psw')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+            @if (formularioUsuario.get('psw')?.errors?.['maxlength']) {
+            <div class="invalid-feedback">No puede tener más de 64 caracteres</div>
+            }
+            @if (formularioUsuario.get('psw')?.errors?.['correoValido']) {
+            <div class="invalid-feedback">La contraseña no es segura</div>
+            }
+        </div>
+        <div class="col-12">
+            <span id="passwordHelpInline" class="form-text text-ayuda">
+                La contraseña debe tener mínimo 8 caracteres, mínimo 1 letra minúscula, 1 mayúscula, 1 dígito o
+                culaquier caracter de los siguientes ($!%*#?.^_-).
+            </span>
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="fecha" class="form-label">Fecha Nacimiento</label>
+            <input type="date" class="form-control" formControlName="fechanacimiento"
+                [ngClass]="{'is-invalid':submitted && formularioUsuario.controls.fechanacimiento.errors}" id="fecha">
+            @if (formularioUsuario.get('fechanacimiento')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="telefono" class="form-label">Telefono</label>
+            <input type="number" class="form-control" formControlName="telefono"
+                [ngClass]="{'is-invalid':submitted && formularioUsuario.controls.telefono.errors}" id="telefono"
+                placeholder="Telefono">
+            @if (formularioUsuario.get('telefono')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 col-md-8 mb-2">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input type="text" class="form-control" formControlName="direccion"
+                [ngClass]="{'is-invalid':submitted && formularioUsuario.controls.direccion.errors}" id="direccion"
+                placeholder="Dirección">
+            @if (formularioUsuario.get('direccion')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+            @if (formularioUsuario.get('direccion')?.errors?.['maxlength']) {
+            <div class="invalid-feedback">No puede tener más de 100 caracteres</div>
+            }
+        </div>
+        <div class="col-12 col-md-4 mb-2">
+            <label for="cp" class="form-label">Código Postal</label>
+            <input type="number" class="form-control" formControlName="cp"
+                [ngClass]="{'is-invalid':submitted && formularioUsuario.controls.cp.errors}" id="cp" placeholder="CP">
+            @if (formularioUsuario.get('cp')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            <label for="provincia" class="form-label">Provincia</label>
+            <select id="provincia" class="form-select" formControlName="provincia"
+                [ngClass]="{'is-invalid':submitted && formularioUsuario.controls.provincia.errors}"
+                placeholder="Escoge tu Provincia">
+                <option value="" selected>Escoge una provincia</option>
+                @for (p of provincias; track $index) {
+                <option value="{{p.idprovincia}}">{{p.nombre}}</option>
+                }
+            </select>
+            @if (formularioUsuario.get('provincia')?.errors?.['required']) {
+            <div class="invalid-feedback">Este campo es obligatorio</div>
+            }
+        </div>
+        <div class="col-12 mb-2">
+            <div class="row align-items-end">
+                <div class="col-6">
+                    <label for="provinciafav" class="form-label">Ciudad Favorita</label>
+                    <select id="provinciafav" class="form-select" formControlName="provinciafav"
+                        [ngClass]="{'is-invalid':submitted && formularioUsuario.controls.provinciafav.errors}"
+                        placeholder="Escoge tu Ciudad Favorita">
+                        <option value="" selected>Escoge una ciudad</option>
+                        @for (p of provincias; track $index) {
+                        <option value="{{p.idprovincia}}">{{p.nombre}}</option>
+                        }
+                    </select>
+                    @if (formularioUsuario.get('provinciafav')?.errors?.['required']) {
+                    <div class="invalid-feedback">Este campo es obligatorio</div>
+                    }
+                </div>
+                <div class="col-6">
+                    <span id="passwordHelpInline" class="form-text text-ayuda">
+                        Ciudad de preferencia para buscar eventos.
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 mt-2 d-grid gap-2">
+            <button type="reset" class="btn btn-secundario">Limpiar</button>
+        </div>
+        <div class="col-6 mt-2 d-grid gap-2">
+            <button type="submit" class="btn btn-primario_claro" data-bs-toggle="modal"
+                data-bs-target="#crearModal">Editar</button>
+        </div>
+        <!-- Modal de confirmación -->
+        <div class="modal fade" id="crearModal" tabindex="-1" data-bs-theme="dark">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">¿Seguro que quieres editar el usuario
+                            "{{formularioUsuario.value.nombre}}"?</h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-error" data-bs-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-primario" data-bs-dismiss="modal" (click)="enviar()">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@if(alertConfirmEditar){
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-1"></i>
+    <div>
+        Usuario editado correctamente!
+    </div>
+</div>
+}
+@if(alertErrorEditar){
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <div>
+        Error al editar el ususario.
+    </div>
+</div>
+}
